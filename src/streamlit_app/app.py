@@ -25,8 +25,8 @@ def main():
     st.title("💊 AlertRx: Medical Alert Management System")
 
     db_manager = DBManager()
-    db_manager.connect()
-    db_manager.create_tables() # Ensure tables exist
+    # Supabase tables must be created manually or via migrations.
+    # Refer to src/database/db_manager.py's create_tables_guide() for schema.
 
     st.sidebar.header("Navigation")
     page = st.sidebar.radio("Go to", ["View Alerts", "Enter Actions"])
@@ -36,7 +36,7 @@ def main():
     elif page == "Enter Actions":
         enter_actions_page(db_manager)
 
-    db_manager.close()
+    # Supabase client does not require explicit closing in this context.
 
 def view_alerts_page(db_manager: DBManager):
     st.header("Current Medical Alerts")
