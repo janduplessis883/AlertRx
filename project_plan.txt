@@ -1,0 +1,83 @@
+Project Plan: Medical Alert Processing Application
+
+The project can be broken down into the following key components:
+
+### 1. Data Scraping and Extraction
+*   **Tool**: Firecrawl API for converting web pages to structured JSON.
+*   **Sources**: Identify the 2-3 medical alert websites.
+*   **Process**:
+    *   Develop a Python script to interact with the Firecrawl API.
+    *   For each alert source, identify the relevant URLs to scrape.
+    *   Use Firecrawl to extract JSON data from individual alert pages.
+    *   Handle API keys and rate limits for Firecrawl.
+
+### 2. Data Processing and Normalization
+*   **Purpose**: Transform the raw JSON data from Firecrawl into a consistent, unified format.
+*   **Steps**:
+    *   Define a common schema for medical alerts (e.g., `alert_id`, `title`, `date`, `severity`, `summary`, `affected_products`, `recommendations`, `source_url`).
+    *   Write Python functions to parse the Firecrawl JSON output, extract relevant fields, and map them to the common schema.
+    *   Implement data cleaning steps (e.g., removing HTML tags, standardizing date formats, handling missing values).
+
+### 3. Streamlit Application
+*   **Purpose**: Provide a user interface for pharmacists to view alerts and input actions/patient data.
+*   **Components**:
+    *   **Dashboard**: Display a list of processed medical alerts.
+    *   **Alert Detail View**: Show detailed information for a selected alert.
+    *   **Data Entry Form**: Allow pharmacists to input:
+        *   Actions taken (text field).
+        *   Number of patients affected for each of the 12 surgeries:
+            *   Scarsdale-Medical-Centre
+            *   Earls-Court-Surgery
+            *   Stanhope-Mews-Surgery
+            *   The-Chelsea-Practice
+            *   Health-Partners-at-Violet-Melchett
+            *   Emperors-Gate-Health-Centre
+            *   Knightsbridge-Medical-Centre
+            *   Earls-Court-Medical-Centre
+            *   The-Abingdon-Medical-Practice
+            *   The-Good-Practice
+            *   Royal-Hospital-Chelsea
+            *   Kensington-Park-Medical-Centre
+    *   **Data Persistence**: Save the pharmacist's inputs.
+
+### 4. Data Storage
+*   **Option 1 (Simple)**: Use a local SQLite database for storing both processed alerts and pharmacist inputs. This is easy to set up and manage for a single-user application.
+*   **Option 2 (Scalable)**: Consider a more robust database like PostgreSQL if the application needs to scale or support multiple concurrent users. For this initial phase, SQLite is sufficient.
+*   **Schema**: Design database tables for `alerts` and `pharmacist_actions`.
+
+### Proposed Directory Structure:
+
+```
+AlertRx/
+├── .gitignore
+├── .python-version
+├── main.py                 # Main entry point for the Streamlit app
+├── pyproject.toml          # Project dependencies
+├── README.md
+├── requirements.txt        # For pip installations
+├── src/
+│   ├── __init__.py
+│   ├── scraper/
+│   │   ├── __init__.py
+│   │   ├── firecrawl_scraper.py  # Handles Firecrawl API calls
+│   │   └── sources.py            # Defines alert sources and their parsing logic
+│   ├── processor/
+│   │   ├── __init__.py
+│   │   └── data_normalizer.py    # Cleans and normalizes scraped data
+│   ├── database/
+│   │   ├── __init__.py
+│   │   └── db_manager.py         # Handles database interactions (SQLite)
+│   └── streamlit_app/
+│       ├── __init__.py
+│       └── app.py                # Streamlit UI code
+└── data/
+    └── alerts.db               # SQLite database file
+```
+
+### Next Steps:
+
+1.  **Confirm Plan**: Review this plan and provide feedback.
+2.  **Setup Environment**: Install necessary libraries (Streamlit, Firecrawl client, etc.).
+3.  **Implement Scraper**: Develop the Firecrawl integration.
+4.  **Implement Processor**: Create data normalization logic.
+5.  **Build Streamlit App**: Develop the UI and integrate with data storage.

@@ -1,0 +1,4 @@
+streamlit
+firecrawl-py
+pandas
+sqlalchemy
